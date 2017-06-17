@@ -1,0 +1,108 @@
+﻿@model PagedList.IPagedList<SystemMagazynowy.Models.Operation>
+@using PagedList.Mvc
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+
+@if(ViewBag.IsStocktakingOn == -1)
+{
+{
+    ViewBag.Title = "Operacje";
+}
+
+<h2 class="text-center main-header">Operacje</h2>
+
+
+    <p class="text-center add-new-element">
+        <span>
+            <a href="@Url.Action("Pz")" class="btn btn-default" title="Nowy przychód zewnętrzny"><span class="glyphicon glyphicon-plus-sign"></span> Dodaj Pz</a>
+        </span>
+        <span>
+            <a href="@Url.Action("Pw")" class="btn btn-default" title="Nowy przychód wewnętrzny"><span class="glyphicon glyphicon-plus-sign"></span> Dodaj Pw</a>
+        </span>
+        <span>
+            <a href="@Url.Action("Wz")" class="btn btn-default" title="Nowe wydanie na zewnątrz"><span class="glyphicon glyphicon-plus-sign"></span> Dodaj Wz</a>
+        </span>
+        <span>
+            <a href="@Url.Action("Rw")" class="btn btn-default" title="Nowy rozchód wewnętrzny"><span class="glyphicon glyphicon-plus-sign"></span> Dodaj Rw</a>
+        </span>
+        <span>
+            <a href="@Url.Action("Mm")" class="btn btn-default" title="Nowe przesunięcie międzymagazynowe"><span class="glyphicon glyphicon-plus-sign"></span> Dodaj Mm</a>
+        </span>
+    </p>
+
+<div class="search-box">
+    @using(Html.BeginForm("Index", "Operation", FormMethod.Get, htmlAttributes: new { @class = "form-inline" }))
+    {
+        @Html.Hidden("sortOrder")
+       
+        <div class="form-group">
+            @Html.TextBox("SearchString", ViewBag.CurrentFilter as string, htmlAttributes: new { @class = "form-control", @placeholder = "Podaj nazwę operacji, użytkownika, kontrahenta lub magazynu", @size = "100", @title= "Podaj nazwę operacji, użytkownika, kontrahenta lub magazynu" })
+        </div>
+        <input type="submit" class="btn btn-default" value="Szukaj" />
+    }
+</div>
+<table class="table table-hover">
+    <tr>
+        <th>
+            @Html.ActionLink("Operacja", "Index", new { sortOrder= ViewBag.OperationSortParam, searchString= ViewBag.SearchValue, currentFilter= ViewBag.CurentFilter})
+        </th>
+        <th>
+            @Html.ActionLink("Numer", "Index", new { sortOrder = ViewBag.NumberSortParam, searchString = ViewBag.SearchValue, currentFilter = ViewBag.CurentFilter })
+        </th>
+        <th>
+            @Html.ActionLink("Data operacji", "Index", new { sortOrder = ViewBag.DateSortParam, searchString = ViewBag.SearchValue, currentFilter = ViewBag.CurentFilter })
+        </th>
+        <th>
+            @Html.ActionLink("Kontrahent", "Index", new { sortOrder = ViewBag.ContractorSortParam, searchString = ViewBag.SearchValue, currentFilter = ViewBag.CurentFilter })
+        </th>
+        <th>
+            @Html.ActionLink("Użytkownik", "Index", new { sortOrder = ViewBag.UserSortParam, searchString = ViewBag.SearchValue, currentFilter = ViewBag.CurentFilter })
+        </th>
+        
+        
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Type)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.FullNumber)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.OperationDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Contractor.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.User.UserName)
+        </td>
+        
+        <td>
+            <p class="links-to-hide">
+                @if (!item.Type.Contains("K"))
+                {@Html.ActionLink("Korekta ", "Edit", new { id = item.ID }) <span>|</span> } 
+
+                @Html.ActionLink("Dokument", "Document", new { id = item.ID }) 
+                @if (!(item.OperationDate.Year == DateTime.Now.Year))
+                {  <span>|</span> @Html.ActionLink("Usuń", "Delete", new { id = item.ID })}
+            </p>
+        </td>
+    </tr>
+}
+
+</table>
+<br />
+<div class="text-center page-nav">
+    @Html.PagedListPager(Model, page => Url.Action("Index", new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
+</div>
+}
+else
+{
+    ViewBag.Title = "INWENTARYZACJA";
+
+    @Html.Partial("_StocktakingOnPartial");
+}
+

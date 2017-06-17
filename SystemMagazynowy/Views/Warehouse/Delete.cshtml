@@ -1,0 +1,40 @@
+﻿@model SystemMagazynowy.Models.Warehouse
+
+@if(ViewBag.IsStocktakingOn == -1)
+{
+    {
+        ViewBag.Title = "Usuń magazyn";
+    }
+
+    @Html.Partial("_BackToListPartial");
+
+    if (ViewBag.AssortmentInWarehouse.Count > 0)
+    {
+        <h3 class="text-center" style="color:red;">Nie możesz usunąć magazynu, w którym znajduje się asortyment.</h3>
+    }
+    else
+    {
+        <h2 class="text-center">Usuń magazyn</h2>
+
+        <h3 class="text-center">Czy na pewno usunąć @Model.Name?</h3>
+        <div>
+        
+
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
+
+                <div class="form-actions no-color text-center">
+                    <input type="submit" value="Tak, usuń" class="btn btn-danger" />
+                    @Html.ActionLink("Nie, wracam do listy", "Index", null, htmlAttributes: new { @class = "btn btn-default" })
+                </div>
+            }
+        </div>
+    }
+}
+else
+{
+    ViewBag.Title = "INWENTARYZACJA";
+
+    @Html.Partial("_StocktakingOnPartial");
+}

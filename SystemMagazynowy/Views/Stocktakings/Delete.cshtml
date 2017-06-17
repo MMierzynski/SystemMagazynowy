@@ -1,0 +1,76 @@
+﻿@model SystemMagazynowy.Models.Stocktaking
+
+@{
+    ViewBag.Title = "Usuń";
+}
+@Html.Partial("_BackToListPartial")
+<h2 class="text-center">Usuń inwentaryzacje</h2>
+
+
+<div>
+    @if (Model.IsOpen)
+    {
+        <h3 class="text-center">Czy jesteś pewien że chcesz usunąć inwentaryzacje numer @Model.Number<br /> z dnia @Model.StartDate</h3>
+
+        using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-actions no-color text-center">
+                <input type="submit" value="Tak, usuń" class="btn btn-danger" /> 
+                @Html.ActionLink("Nie, wróć do listy", "Index", null, htmlAttributes: new { @class = "btn btn-default" })
+            </div>
+        }
+    }
+    else
+    {
+        <h3 class="text-danger text-center">Niestety nie możesz usunąć zamkniętej inwentaryzacji.</h3>
+        
+    }
+
+    @*<hr />*@
+    @*<dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Number)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Number)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.StartDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.StartDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EndDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EndDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IsOpen)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IsOpen)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.UserId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UserId)
+        </dd>
+
+    </dl>*@
+
+    
+</div>

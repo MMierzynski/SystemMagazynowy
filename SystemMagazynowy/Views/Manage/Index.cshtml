@@ -1,0 +1,11 @@
+﻿@model SystemMagazynowy.Models.IndexViewModel
+@{
+    ViewBag.Title = "Zmień ustawienia";
+}
+
+<h2 class="text-center">@ViewBag.Title</h2>
+
+<p class="text-success">@ViewBag.StatusMessage</p>
+<div>
+    <h4>Zmień hasło: @Html.ActionLink("Zmień", "ChangePassword")</h4>
+</div>

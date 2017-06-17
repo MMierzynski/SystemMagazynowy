@@ -1,0 +1,27 @@
+﻿@media print
+{
+
+    body
+    {
+        padding-top: 0;
+        margin-top:0;
+        color:black;
+        font-size:95%;
+    }
+
+    a
+    {
+        color:black;
+    }
+
+    nav, .footer, .search-box, .page-nav, .glyphicon,  .search-box, .add-new-element,td .btn, p.links-to-hide, a[href]:after
+    {
+         display:none;
+    }
+
+
+
+
+   
+    
+}

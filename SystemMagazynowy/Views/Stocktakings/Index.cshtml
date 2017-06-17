@@ -1,0 +1,82 @@
+﻿@model IEnumerable<SystemMagazynowy.Models.Stocktaking>
+
+@{
+    ViewBag.Title = "Inwentaryzacja";
+}
+
+<h2 class="text-center">Inwentaryzacja</h2>
+@if (ViewBag.IsOpenStocktaking == -1)
+{
+    <p class="add-new-element">
+        <span>
+            <a href="@Url.Action("Create")" class="btn btn-default"><span class="glyphicon glyphicon-plus-sign" ></span> Nowa inwentaryacja</a>
+        </span>
+    
+    </p>
+}
+<table class="table table-hover">
+    <tr>
+        <th>
+            Status
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Number)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.StartDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.EndDate)
+        </th>
+        <th>
+            Użytkownik
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @if(item.IsOpen)
+            {
+                <span class="glyphicon glyphicon-pencil" title="Otwarta"></span>
+            }
+            else
+            {
+                <span class="glyphicon glyphicon-ok-sign" title="Zamknięta"></span>
+            }
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Number)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.StartDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.EndDate)
+        </td>
+        
+        <td>
+            @Html.DisplayFor(modelItem => item.User.UserName)
+        </td>
+        <td>
+            @if (ViewBag.IsOpenStocktaking == item.ID)
+            {
+                <p class="links-to-hide">
+                    @Html.ActionLink("Edytuj", "Edit", new { id = item.ID },htmlAttributes: new {@class="btn btn-default" }) 
+                    @Html.ActionLink("Usuń", "Delete", new { id = item.ID }, htmlAttributes: new { @class = "btn btn-danger" })
+                </p>
+            }
+            else
+            {
+                <p>
+                    <span>
+                        <a href="@Url.Action("Details",new {id=item.ID})" class="btn btn-default"><span class="glyphicon glyphicon-download"></span> Generuj plik Excel</a>
+                    </span>
+                </p>
+            }
+        </td>
+    </tr>
+}
+
+</table>

@@ -1,0 +1,46 @@
+﻿@model SystemMagazynowy.Models.AssortmentCategory
+
+@if(ViewBag.IsStocktakingOn == -1)
+{
+    {
+        ViewBag.Title = "Szczegóły kategorii";
+    }
+    @Html.Partial("_BackToListPartial")
+
+    <h2 class="text-center">@Model.Name</h2>
+
+    if (Model.Assortment.Count() > 0)
+    {
+
+        <table class="table table-hover">
+            <tr>
+                <th>Nazwa</th>
+                <th>Kcode kreskowy</th>
+                <th>Kontrahent</th>
+                <th>Jednostka miary</th>
+                <th></th>
+            </tr>
+            @foreach (var item in Model.Assortment)
+            {
+                <tr>
+                    <td>@item.Name</td>
+                    <td>@item.BarCode</td>
+                    <td>@item.Contractor.Name</td>
+                    <td>@item.Unit</td>
+                    <td>@Html.ActionLink("Więcej", "Details", "Assortment", new { id = @item.ID }, htmlAttributes: new { @class = "btn btn-default" })</td>
+                </tr>
+            }
+        </table>
+    }
+    else
+    {
+        <h3 class="text-center">Do kategorii nie został przypisany żaden asortyment.</h3>
+    }
+
+}
+else
+{
+    ViewBag.Title = "INWENTARYZACJA";
+
+@Html.Partial("_StocktakingOnPartial");
+}

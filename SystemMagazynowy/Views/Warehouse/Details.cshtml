@@ -1,0 +1,130 @@
+﻿@model SystemMagazynowy.Models.Warehouse
+
+@if(ViewBag.IsStocktakingOn == -1)
+{
+    {
+        ViewBag.Title = "Szczegóły magazynu";
+    }
+
+    @Html.Partial("_BackToListPartial")
+    <h2 class="text-center">Magazyn: @Model.Name</h2>
+
+    <div class="row">
+        <h3 class="text-center">Podsumowanie wykonanych operacji</h3>
+        @*<div class="col-md-6">
+            <div class="panel panel-default">
+                <div class="panel-heading"><h3 class="text-center">Podsumowanie operacji</h3></div>
+                <div class="panel-body">
+                    <d
+                </div>
+            </div>
+        </div>*@
+        <ul class="nav nav-tabs">
+            <li class="active"><a href="#all-time" data-toggle="tab" >Cały okres</a></li>
+            <li><a href="#last-month" data-toggle="tab">Ostatni miesiąc</a></li>
+            <li><a href="#last-week" data-toggle="tab">Ostatni tydzień</a></li>
+            <li><a href="#today" data-toggle="tab">Dzisiaj</a></li>
+        </ul>
+
+        <div class="tab-content">
+            <div id="all-time" class="tab-pane fade in active">
+                @if (@ViewBag.AllCount > 0)
+                {
+                <ul class="operations-in-warehouse">
+                    <li>Łączna ilość operacji: @ViewBag.AllCount, w tym:</li>
+                    <li>
+                        <ul>
+                            <li><span class="text-bold">Pz: </span> @ViewBag.PzAllCount</li>
+                            <li><span class="text-bold">Pw: </span> @ViewBag.PwAllCount</li>
+                            <li><span class="text-bold">Wz:</span> @ViewBag.WzAllCount</li>
+                            <li><span class="text-bold">Rw: </span> @ViewBag.RwAllCount</li>
+                            <li><span class="text-bold">Mm: </span> @ViewBag.MmAllCount</li>
+                        </ul>
+                    </li>
+                </ul>
+                }
+                else
+                {
+                    <h3 class="text-center">W wybranym okresie nie zostały jeszcze przeprowadzone żadne operacje.</h3>
+                }
+            </div>
+
+            <div id="last-month" class="tab-pane fade in">
+                @if (@ViewBag.MonthCount>0)
+                {
+                <ul class="operations-in-warehouse">
+                    <li>Łączna ilość operacji: @ViewBag.MonthCount, w tym:</li>
+                    <li>
+                        <ul>
+                            <li><span class="text-bold">Pz: </span>@ViewBag.PzMonthCount</li>
+                            <li><span class="text-bold">Pw: </span>@ViewBag.PwMonthCount</li>
+                            <li><span class="text-bold">Wz: </span>@ViewBag.WzMonthCount</li>
+                            <li><span class="text-bold">Rw: </span>@ViewBag.RwMonthCount</li>
+                            <li><span class="text-bold">Mm: </span>@ViewBag.MmMonthCount</li>
+                        </ul>
+                    </li>
+                </ul>
+                }
+                else
+                {
+                <h3 class="text-center">W wybranym okresie nie zostały jeszcze przeprowadzone żadne operacje.</h3>
+                }
+            </div>
+
+            <div id="last-week" class="tab-pane fade in">
+                @if (@ViewBag.WeekCount>0)
+                {
+                <ul class="operations-in-warehouse">
+                    <li>Łączna ilość operacji: @ViewBag.WeekCount, w tym:</li>
+                    <li>
+                        <ul>
+                            <li><span class="text-bold">Pz: </span>@ViewBag.PzWeekCount</li>
+                            <li><span class="text-bold">Pw: </span>@ViewBag.PwWeekCount</li>
+                            <li><span class="text-bold">Wz: </span>@ViewBag.WzWeekCount</li>
+                            <li><span class="text-bold">Rw: </span>@ViewBag.RwWeekCount</li>
+                            <li><span class="text-bold">Mm: </span>@ViewBag.MmWeekCount</li>
+                        </ul>
+                    </li>
+                </ul>
+                }
+                else
+                {
+                <h3 class="text-center">W wybranym okresie nie zostały jeszcze przeprowadzone żadne operacje.</h3>
+                }
+            </div>
+
+            <div id="today" class="tab-pane fade in">
+                @if(@ViewBag.TodayCount>0)
+                { 
+                <ul class="operations-in-warehouse">
+                    <li>Łączna ilość operacji: @ViewBag.TodayCount, w tym:</li>
+                    <li>
+                        <ul>
+                            <li><span class="text-bold">Pz: </span>@ViewBag.PzTodayCount</li>
+                            <li><span class="text-bold">Pw: </span>@ViewBag.PwTodayCount</li>
+                            <li><span class="text-bold">Wz: </span>@ViewBag.WzTodayCount</li>
+                            <li><span class="text-bold">Rw: </span>@ViewBag.RwTodayCount</li>
+                            <li><span class="text-bold">Mm: </span>@ViewBag.MmTodayCount</li>
+                        </ul>
+                    </li>
+                </ul>
+                }
+                else
+                {
+                <h3 class="text-center">W wybranym okresie nie zostały jeszcze przeprowadzone żadne operacje.</h3>
+                }
+            </div>
+
+        
+        </div>
+        
+        @Html.ActionLink("Lista operacji","Index","Operation",new { SearchString = Model.Name },null)
+
+    </div>
+}
+else
+{
+    ViewBag.Title = "INWENTARYZACJA";
+
+    @Html.Partial("_StocktakingOnPartial");
+}

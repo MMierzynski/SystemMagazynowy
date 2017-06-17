@@ -1,0 +1,39 @@
+﻿@model SystemMagazynowy.Models.Operation
+
+@if(ViewBag.IsStocktakingOn == -1)
+{
+    {
+        ViewBag.Title = "Usuń operację";
+    }
+
+    <h2 class="text-center">Usuń operację</h2>
+
+    if (Model.OperationDate.Year == DateTime.Now.Year)
+    {
+        <h3 style="color:red" class="text-center">Nie możesz usunąć operacji z bieżącego roku kalendarzowego.</h3><br/>
+    }
+    else
+    {
+        <div>
+            <h3 class="text-center">
+
+                Czy na pewno chcesz usunąć operację @Model.Type @Model.FullNumber z dnia @Model.OperationDate.Day.@Model.OperationDate.Month.@Model.OperationDate.Year ?
+            </h3>
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
+
+                <div class="form-actions no-color text-center">
+                    <input type="submit" value="Tak, usuń" class="btn btn-danger" />
+                    @Html.ActionLink("Nie, wracam do listy", "Index", null, htmlAttributes: new { @class = "btn btn-default" })
+                </div>
+            }
+        </div>
+    }
+}
+else
+{
+    ViewBag.Title = "INWENTARYZACJA";
+
+    @Html.Partial("_StocktakingOnPartial");
+}

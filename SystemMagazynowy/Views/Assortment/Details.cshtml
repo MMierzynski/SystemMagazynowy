@@ -1,0 +1,168 @@
+﻿@model SystemMagazynowy.ViewModel.AssortmentDetailsViewModel
+
+@if(ViewBag.IsStocktakingOn == -1)
+{
+{
+    ViewBag.Title = "Szczegóły kartoteki";
+}
+
+@Html.Partial("_BackToListPartial")
+
+<h2 class="text-center">@Model.Name</h2>
+
+<div>
+    <hr />
+    <div class="row">
+        <div class="col-md-6">
+        <div class="panel panel-default text-center">
+            <div class="panel-heading">
+                <h3>Szczegóły kartoteki</h3>
+            </div>
+                <div class="panel-body">
+                    <dl class="dl-horizontal">
+                        <dt>
+                            Kod kreskowy
+                        </dt>
+                        <dd>
+                            @Html.DisplayFor(model => model.BarCode)
+                        </dd>
+
+                        <dt>
+                            Kategoria
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.CategoryName)
+                        </dd>
+
+                        <dt>
+                            Kontrahent
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.ContractorName)
+                        </dd>
+                        <dt>
+                            Jednostka
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.Unit)
+                        </dd>
+
+                        <dt>
+                            Stan minimalny
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.MinQuantity)
+                        </dd>
+
+                        <dt>
+                            Stan maksymalny
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.MaxQuantity)
+                        </dd>
+
+                        @*<dt>
+                            @Html.DisplayNameFor(model => model.InitialQuantity)
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.InitialQuantity)
+                        </dd>*@
+
+                    </dl>
+                </div>
+                <div class="panel-footer">
+                    @Html.ActionLink("Edytuj", "Edit", new { id = Model.ID }, htmlAttributes:new { @class = "btn btn-default" })
+                    @Html.ActionLink("Usuń", "Delete", new { id = Model.ID }, htmlAttributes: new { @class = "btn btn-default" })
+                    @Html.ActionLink("Pokaż kontrahenta", "Details","Contractor",new { id=Model.ContractorID}, htmlAttributes: new { @class = "btn btn-default" })
+                </div>
+            </div>
+
+        </div>
+        <div class="col-md-6">
+            <div class="panel panel-default text-center">
+                <div class="panel-heading">
+                    <h3>Stany magazynowe</h3>
+                </div>
+                <div class="panel-body">
+                    
+                        @if (Model.Replanishment.Count() > 0)
+                        {
+                            <table class="table">
+                                <tr>
+                                    <th>
+                                        Magazyn
+                                    </th>
+                                    <th>
+                                        Ilość
+                                    </th>
+                                    <th>
+                                        Jednostka
+                                    </th>
+                                </tr>
+                                
+                                @foreach(var item in Model.Replanishment)
+                                {
+                                    <tr>
+                                        <td>@item.WarehouseName</td>
+                                        <td>@item.Quantity</td>
+                                        <td>@Model.Unit</td>
+                                    </tr>
+                                }
+                                
+                            </table>
+                        }
+                        else
+                        {
+                            <h3>Brak przedmiotu w magazynie.</h3>
+                        }
+                </div>
+                @if (Model.Replanishment.Count() > 0)
+                {
+                    <div class="panel-footer">
+                        @Html.ActionLink("Pokaż historię operacji", "Details", new { id = Model.ID, showOperations = true }, htmlAttributes: new { @class = "btn btn-default" })
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+    @if(Model.Operations != null)
+    {
+        <h2 class="text-center">Operacje na kartotece</h2>
+        <table class="table">
+            <tr>
+                <th>Operacja</th>
+                <th>Numer</th>
+                <th>Data</th>
+                <th>Ilość</th>
+                <th>Jednostka</th>
+                <th>Użytkownik</th>
+            </tr>
+            @foreach (var item in Model.Operations)
+            {
+                <tr>
+                    <td>@item.Type</td>
+                    <td>@item.FullNumber</td>
+                    <td>@item.OperationDate</td>
+                    <td>@item.Quantity</td>
+                    <td>@Model.Unit</td>
+                    <td>@item.User</td>
+                </tr>
+            }
+        </table>
+    }
+
+</div>
+}
+else
+{
+    ViewBag.Title = "INWENTARYZACJA";
+
+    @Html.Partial("_StocktakingOnPartial");
+}
+

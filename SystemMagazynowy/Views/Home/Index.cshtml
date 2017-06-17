@@ -1,0 +1,102 @@
+﻿@model PagedList.IPagedList<SystemMagazynowy.Models.AssortmentWarehouse>
+@using PagedList.Mvc
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+
+@if (ViewBag.IsStacktakingOn==-1)
+{
+
+
+    ViewBag.Title = "START";
+
+
+
+<div class="main-header">
+    <h2 class="text-center">Przegląd stanów magazynowych</h2>
+    <h4 class="text-center">na dzień @DateTime.Now.ToShortDateString()</h4>
+</div>
+
+    using (Html.BeginForm("Index", "Home", FormMethod.Get, htmlAttributes: new { @class = "form-inline search-box" }))
+    {
+    @Html.Hidden("sortOrder")
+
+    <div class="form-group">
+        @Html.TextBox("SearchString", ViewBag.CurrentFilter as string, htmlAttributes: new { @class = "form-control", @placeholder = "Wpisz nazwe lub kod kreskowy...", @size = "30" })   
+    </div>
+    <input type="submit" class="btn btn-default" value="Szukaj" />
+}
+
+<table class="table table-hover table-mrgn-tp-20">
+    <tr>
+        <th>
+            @Html.ActionLink("Magazyn", "Index", new { sortOrder = ViewBag.WarehouseSortParam, searchString = ViewBag.SearchValue, currentFilter = ViewBag.CurrentFilter, pageCount = ViewBag.PageCount })
+           
+        </th>
+        <th>
+            @Html.ActionLink("Nazwa", "Index", new { sortOrder = ViewBag.NameSortParam, searchString = ViewBag.SearchValue, currentFilter = ViewBag.CurrentFilter })
+        </th>
+        <th>
+            @Html.ActionLink("Kod kreskowy", "Index", new { sortOrder = ViewBag.BarcodeSortParam, searchString = ViewBag.SearchValue, currentFilter = ViewBag.CurrentFilter })
+        </th>
+        <th>
+            @Html.ActionLink("Ilość", "Index", new { sortOrder = ViewBag.QuantitySortParam, searchString = ViewBag.SearchValue, currentFilter = ViewBag.CurrentFilter })
+        </th>
+        <th>
+           @Html.ActionLink("Jednostka", "Index", new { sortOrder = ViewBag.UnitSortParam, searchString = ViewBag.SearchValue, currentFilter = ViewBag.CurrentFilter })
+        </th>
+        <th>
+            @Html.ActionLink("Kategoria", "Index", new { sortOrder = ViewBag.CatSortParam, searchString = ViewBag.SearchValue, currentFilter = ViewBag.CurrentFilter })
+        </th>
+        
+        <th></th>
+    </tr>
+
+@foreach (var item in Model)
+{
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Warehouse.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Assortment.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Assortment.BarCode)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Quantity)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Assortment.Unit)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Assortment.Category.Name)
+        </td>
+        <td>
+           @if (item.Quantity <= item.Assortment.MinimumQuantity)
+           {
+               <span class="glyphicon glyphicon-exclamation-sign color-red size-20" title="Uwaga!!! Osiągnięto stan minimalny."></span>
+           }
+           else if (item.Quantity >= item.Assortment.MaximumQuantity)
+           {
+            <span class="glyphicon glyphicon-exclamation-sign color-orange size-20" title="Przekroczono stan maksymalny"></span>
+           }
+           else
+           {
+            <span ></span>
+           }
+        </td>
+    </tr>
+}
+
+</table>
+<br />
+<div class="text-center page-nav">
+    @Html.PagedListPager(Model, page => Url.Action("Index", new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
+</div>
+}
+else
+{
+    ViewBag.Title = "INWENTARYZACJA";
+
+    @Html.Partial("_StocktakingOnPartial");
+}

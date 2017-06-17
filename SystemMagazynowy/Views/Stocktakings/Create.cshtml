@@ -1,0 +1,150 @@
+﻿@model SystemMagazynowy.ViewModel.OpenStacktakingViewModel
+
+@{
+    ViewBag.Title = "Nowa inwentaryzacja";
+}
+@Html.Partial("_BackToListPartial")
+<h2 class="text-center">Inwentaryzacja</h2>
+
+@if (ViewBag.IsOpenStocktaking == -1)
+{
+    using (Html.BeginForm())
+    {
+    @Html.AntiForgeryToken()
+
+
+
+    <div class="form-horizontal">
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+       
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Number, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Number, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                @Html.ValidationMessageFor(model => model.Number, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.StartDate, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.StartDate, new { htmlAttributes = new { @class = "form-control",@readonly="readonly"} })
+                @Html.ValidationMessageFor(model => model.StartDate, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.WarehouseID, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("WarehouseID", (SelectList)ViewBag.WarehouseID,"Wybierz magazyn", htmlAttributes: new { @class = "form-control", @value = Model.WarehouseID })
+                @Html.ValidationMessageFor(model => model.WarehouseID, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        @Html.HiddenFor(model => model.UserID)
+        @Html.HiddenFor(model => model.IsOpen)
+        @Html.HiddenFor(model => model.StartDate)
+        @Html.HiddenFor(model => model.Number)
+        @Html.HiddenFor(model => model.EndDate)
+        @Html.HiddenFor(model => model.AssortmentInStocktaking)
+        
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Zapisz" class="btn btn-info" id="submit-stocktaking" />
+                <input type="button" id="btn-open-confirmation-modal" value="Zamknij" data-toggle="modal" data-target="#close-confirm" class="btn btn-danger" />
+                <input type="button" value="Dodaj asortyment" id="open-modal" class="btn btn-default" data-toggle="modal" data-target="#addAssortmentModal" />
+            </div>
+        </div>
+
+
+        <div id="addAssortmentModal" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header text-center">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Asortyment</h4>
+                    </div>
+                    <div class="modal-body">
+                        
+                        <div class="row">
+                                <label class="col-sm-3 control-label">Kod kreskowy</label>
+                                <input type="text" id="barcode" class="form-control col-sm-6" name="barcode" placeholder="Wpisz kod kreskowy" />
+                                <button class="btn btn-default col-sm-2" id="search-assortment"><span class="glyphicon glyphicon-search"></span> Szukaj</button>
+                        </div>
+                        
+                        <div class="assortment-details"></div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" id="btn-add-assortment" class="btn btn-default" >Dodaj</button>
+                        <button type="button" id="btn-add-next-assortment" class="btn btn-default" >Dodaj kolejny</button>
+                        <button type="button" id="btn-close" class="btn btn-default" data-dismiss="modal">Zamknij</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <table class="table" id="assortment-list-table">
+            <tr>
+                <th>Nazwa</th>
+                <th>Kod kreskowy</th>
+                <th>Ilość w systemie</th>
+                <th>Ilość w magazynie</th>
+                <th></th>
+            </tr>
+            @if (Model.Assortment != null)
+            {
+                foreach (var item in Model.Assortment)
+                {
+                    <tr>
+                        <td>@item.Name</td>
+                        <td>@item.Barcode</td>
+                        <td>@item.BeforeQuantity</td>
+                        <td>@item.AfterQuantity</td>
+                        <td>
+                            <button class="btn btn-default" data=" + @item.AssortmentID + " onclick="DeleteAssortmentFromTable(@item.AssortmentID)">Usuń</button>
+                        </td>
+                    </tr>
+                }
+            }
+        </table>
+
+        <div id="close-confirm" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header text-center">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h3>Zamknąć bieżącą inwentaryzację?</h3>
+                    </div>
+                    <div class="modal-body text-center">
+
+                        <h4>Po zamknięciu inwentaryzacji nie będziesz mógł dokonać żadnych zmian.</h4>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" id="btn-close-stocktaking" class="btn btn-danger">Tak, zamknij</button>
+                        <button type="button" id="btn-cancel-close" class="btn btn-default" data-dismiss="modal">Nie, rezygnuje</button>
+                    </div>
+                </div>
+
+            </div>
+        </div> 
+
+    </div>
+
+    }
+}
+else
+{
+    <h3 class="text-center text-danger">Nie możesz otworzyć kolejnej inwentaryzacji</h3>
+    
+    <h4 class="text-center">Zamknij poprzednią i spróbuj ponownie</h4>
+}
+

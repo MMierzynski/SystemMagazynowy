@@ -1,0 +1,220 @@
+﻿body {
+    padding-top: 50px;
+    padding-bottom: 20px;
+}
+
+/* Set padding to keep content from hitting the edges */
+.body-content {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+/* Override the default bootstrap behavior where horizontal description lists 
+   will truncate terms that are too long to fit in the left column 
+*/
+.dl-center dt {
+    white-space: normal;
+    width:500px;
+    margin-right:20px;
+    font-size:15px;
+}
+
+/* Set width on the form input elements since they're 100% wide by default */
+input,
+select,
+textarea {
+    max-width: 300px;
+    border-radius:0 !important;
+}
+
+.btn 
+{
+    border-radius:0;
+    
+}
+
+.btn-default
+{
+    background-color:#f5f5f5;
+    color:#173857;
+}
+
+.btn-default:hover
+{
+    background-color:#cccccc;
+}
+.btn .glyphicon
+{
+    color:#173857;
+    transition:all ease .3s;
+}
+
+
+.btn:hover .glyphicon
+{
+    color:#000000;
+}
+
+.navbar
+{
+    border:0;
+    background-color:#2770b6;
+    box-shadow:1px 1px 2px #808080;
+}
+
+.navbar li a, .navbar .navbar-brand
+{
+    font-size:0.9em;
+    color:white !important;
+    font-variant:small-caps;
+    margin:0 1px;
+    border-bottom:3px solid #2770b6;
+}
+
+
+.navbar-nav li.active a
+{
+    background-color:#2770b6 !important;
+    color:white !important;
+    border-bottom:3px solid white;
+}
+
+.navbar-nav li a:hover, .navbar .navbar-brand:hover
+{
+    color:#cccccc !important;
+    background-color:#2367a9 !important;
+    border-bottom:3px solid white;
+}
+
+.text-bold
+{
+    font-weight:800;
+}
+
+
+.contractor-data
+{
+    width:45%;
+    float:right;
+}
+
+.our-data
+{
+    width:45%;
+    float:left;
+    margin-bottom:50px;
+}
+
+.table-mrgn-tp-50
+{
+    margin-top:50px;
+}
+
+.table-mrgn-tp-20
+{
+    clear:both;
+    margin-top:20px;
+}
+
+.signature
+{
+    position:relative;
+    margin:20px 100px;
+    height:100px;
+}
+
+
+.user-issued
+{
+    position:absolute;
+    top:20px;
+    left:100px;
+}
+
+.user-accepted
+{
+    position:absolute;
+    top:20px;
+    right:100px;
+}
+
+.size-20
+{
+    width:20px;
+    height:20px;
+}
+
+.color-red
+{
+    color:red;
+}
+
+
+.color-orange
+{
+    color:orange;
+}
+
+footer
+{
+    width:30%;
+    margin:0 auto;
+}
+.table
+{
+    margin-top:20px;
+}
+
+.main-header
+{
+    margin-top:40px;
+    margin-bottom:40px;
+}
+
+.btn-back
+{
+    margin-top:10px;
+}
+
+.message-center
+{
+    margin-top:200px;
+    margin-bottom:200px;
+}
+
+.bad-input-value{
+    border-color:red;
+    box-shadow:1px 1px 5px #e97676;
+}
+table tr
+{
+    align-content:center
+}
+
+ul.operations-in-warehouse
+{
+    padding:10px 50px;
+}
+
+ul.operations-in-warehouse, ul.operations-in-warehouse ul
+{
+    list-style:none;
+}
+
+ul.operations-in-warehouse li , ul.operations-in-warehouse ul li
+{
+    font-size:1.05em;
+    line-height:1.6em;
+}
+
+.panel
+{
+    border-radius:0;
+    transition:all linear.2s;
+}
+
+.panel:hover
+{
+    box-shadow:0px 0px 5px #aaa8a8;
+}
+

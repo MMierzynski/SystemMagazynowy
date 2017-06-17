@@ -1,0 +1,141 @@
+﻿@model SystemMagazynowy.Models.Contractor
+
+@if(ViewBag.IsStocktakingOn == -1)
+{
+{
+    ViewBag.Title = "Details";
+}
+
+@Html.Partial("_BackToListPartial")
+
+<h2 class="text-center">@Model.Name</h2>
+
+<div>
+    <hr />
+    <div class="row">
+        <div class="col-md-5">
+            <div class="panel panel-default text-center">
+                <div class="panel-heading">
+                    <h3>Dane Kontrahenta</h3>
+                </div>
+                <div class="panel-body">
+                    <dl class="dl-horizontal">
+                        <dt>
+                            @Html.DisplayNameFor(model => model.Address)
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.Address)
+                        </dd>
+
+                        <dt>
+                            @Html.DisplayNameFor(model => model.ZipCode)
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.ZipCode)
+                        </dd>
+
+                        <dt>
+                            @Html.DisplayNameFor(model => model.City)
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.City)
+                        </dd>
+
+                        <dt>
+                            @Html.DisplayNameFor(model => model.PhoneNumber)
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.PhoneNumber)
+                        </dd>
+                        <dt>
+                            @Html.DisplayNameFor(model => model.Fax)
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.Fax)
+                        </dd>
+                        <dt>
+                            @Html.DisplayNameFor(model => model.Email)
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.Email)
+                        </dd>
+                        <dt>
+                            @Html.DisplayNameFor(model => model.NIP)
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.NIP)
+                        </dd>
+                        <dt>
+                            @Html.DisplayNameFor(model => model.REGON)
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.REGON)
+                        </dd>
+
+                    </dl>
+                </div>
+                <div class="panel-footer">
+                    @Html.ActionLink("Edytuj", "Edit", new { id = Model.ID }, htmlAttributes: new {@class="btn btn-default" })
+                    @Html.ActionLink("Usuń", "Delete", new { id = Model.ID }, htmlAttributes: new {@class="btn btn-default" }) 
+                </div>
+            </div>
+        </div>
+        <div class="col-md-7">
+            <div class="panel panel-default text-center">
+                <div class="panel-heading">
+                    <h3>Asortyment</h3>
+                </div>
+                <div class="panel-body">
+
+                    @if (Model.Assortment.Count > 0)
+                    {
+
+                       <table class="table">
+                           <tr>
+                               <th>Nazwa</th>
+                               <th>Kod kreskowy</th>
+                               <th>Kategoria</th>
+                               <th>Jednostka</th>
+                               <th></th>
+                           </tr>
+                           @foreach (var item in Model.Assortment)
+                           {
+                            <tr>
+                                <td>@item.Name</td>
+                                <td>@item.BarCode</td>
+                                <td>@item.Category.Name</td>
+                                <td>@item.Unit</td>
+                                <td>@Html.ActionLink("Więcej", "Details", "Assortment", new { id = @item.ID }, htmlAttributes: new { @class = "btn btn-default" })</td>
+                            </tr>
+                           }
+
+                       </table>
+                    }
+                    else
+                    {
+                        <h2 >Brak towarów.</h2>
+                    }
+                </div>
+
+            </div>
+        </div>
+    </div> 
+
+
+   
+</div>
+}
+else
+{
+    ViewBag.Title = "INWENTARYZACJA";
+
+    @Html.Partial("_StocktakingOnPartial");
+}

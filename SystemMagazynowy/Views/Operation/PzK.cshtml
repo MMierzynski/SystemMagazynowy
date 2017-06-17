@@ -1,0 +1,80 @@
+﻿@model SystemMagazynowy.ViewModel.EditOperationViewModel
+
+@{
+    ViewBag.Title = "Pz Korekta";
+}
+@Html.Partial("_BackToListPartial")
+<h2 class="text-center">Przyjęcie zewnętrzne - Korekta</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        @Html.HiddenFor(model => model.DocumentSourceID, new {@value=Model.DocumentSourceID })
+        @Html.HiddenFor(model => model.Type, new { @value = Model.Type })
+        @Html.HiddenFor(model => model.SelectedAssortment, new { @value = Model.SelectedAssortment })
+      
+      
+        <div class="form-group">
+            @Html.LabelFor(model => model.Number, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Number, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                @Html.ValidationMessageFor(model => model.Number, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.OperationDate, htmlAttributes: new { @class = "control-label col-md-2"})
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.OperationDate, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                @Html.ValidationMessageFor(model => model.OperationDate, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.ContractorID, "Kontrahent", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("ContractorID", null,"Wybierz dostawce", htmlAttributes: new { @class = "form-control",@value = Model.ContractorID })
+                @Html.ValidationMessageFor(model => model.ContractorID, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+       
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.ToWarehouseID, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("ToWarehouseID", (SelectList)ViewBag.WarehouseID,"Wybierz magazyn", htmlAttributes: new { @class = "form-control" , @value= Model.ToWarehouseID})
+                @Html.ValidationMessageFor(model => model.ToWarehouseID, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        @Html.Partial("_OperationFormButtonsPartial")
+
+        <h4 class="text-center">Asortyment w dokumencie</h4>
+        <table class="table table-hover">
+            <tr>
+                <th>Nazwa</th>
+                <th>Kod kreskowy</th>
+                <th>Ilość</th>
+            </tr>
+
+            @foreach (var item in Model.Assortment)
+            {
+                <tr>
+                    <td>@item.Name</td>
+                    <td>@item.BarCode</td>
+                    <td>@item.Quantity</td>
+                </tr>
+            }
+        </table>
+
+        @Html.Partial("_ModalAddAssortmentPartial")
+
+        <h4 class="text-center">Asortyment po korekcie</h4>
+        @Html.Partial("_TableAssortmentListPartial")
+    </div>
+}

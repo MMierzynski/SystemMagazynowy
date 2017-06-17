@@ -1,0 +1,39 @@
+﻿@model SystemMagazynowy.Models.AssortmentCategory
+
+@if(ViewBag.IsStocktakingOn ==-1)
+{
+    {
+        ViewBag.Title = "Usuń kategorię";
+    }
+    @Html.Partial("_BackToListpartial")
+    if (Model.Assortment.Count()>0)
+    {
+        <h2 style="color:red" class="text-center">Nie możesz usunąć kategorii do której został przypisany asortyment.</h2>
+    }
+    else
+    {
+        <h2 class="text-center">Usunąć kategorię?</h2>
+
+        <h3 class="text-center">Czy na pewno usunąć @Model.Name? </h3>
+
+
+
+        <div>
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
+
+                <div class="form-actions no-color text-center">
+                    <input type="submit" value="Tak, usuń" class="btn btn-danger" />
+                    @Html.ActionLink("Nie, wracam do listy", "Index", null, htmlAttributes: new { @class = "btn btn-default" })
+                </div>
+            }
+        </div>
+    }
+}
+else
+{
+    ViewBag.Title = "INWENTARYZACJA";
+
+    @Html.Partial("_StocktakingOnPartial");
+}

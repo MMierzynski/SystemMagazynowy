@@ -1,0 +1,103 @@
+﻿@model PagedList.IPagedList<SystemMagazynowy.Models.Contractor>
+@using PagedList.Mvc
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+
+
+@if(ViewBag.IsStocktakingOn == -1)
+{
+{
+    ViewBag.Title = "Kontrahenci";
+}
+
+
+<h2 class="text-center">Kontrahenci</h2>
+
+using (Html.BeginForm("Index", "Contractor", FormMethod.Get, htmlAttributes: new { @class = "form-inline search-box" }))
+{
+    if (User.IsInRole("canManageContractors"))
+    {
+    <span>
+        <a href="@Url.Action("Create")" class="btn btn-default"><span class="glyphicon glyphicon-plus-sign"></span> Dodaj kontrahenta</a>
+    </span>
+    }
+    <div class="form-group">
+            @Html.TextBox("SearchString", "", htmlAttributes: new { @class = "form-control",@size="50" })
+            @Html.Hidden("sortOrder")
+            
+    </div>
+    <input type="submit" class="btn btn-default" value="Szukaj" />
+}
+
+<table class="table table-hover">
+    <tr>
+        <th >
+            @Html.ActionLink("Nazwa", "Index", new {sortOrder = ViewBag.NameSortParam, searchString= ViewBag.SearchValue})
+        </th>
+        <th>
+            @Html.ActionLink("Adres", "Index", new { sortOrder = ViewBag.AddressSortParam, searchString = ViewBag.SearchValue })
+        </th>
+        <th>
+            @Html.ActionLink("Kod pocztowy", "Index", new { sortOrder = ViewBag.ZipSortParam, searchString = ViewBag.SearchValue })
+        </th>
+        <th>
+            @Html.ActionLink("Miejscowość", "Index", new { sortOrder = ViewBag.CitySortParam, searchString = ViewBag.SearchValue })
+        </th>
+        <th>
+            @Html.ActionLink("Nr telefonu", "Index", new { sortOrder = ViewBag.PhoneSortParam, searchString = ViewBag.SearchValue })
+        </th>
+        <th>
+            @Html.ActionLink("Fax", "Index", new { sortOrder = ViewBag.FaxSortParam, searchString = ViewBag.SearchValue })
+        </th>
+        <th>
+            @Html.ActionLink("Email", "Index", new { sortOrder = ViewBag.EmailSortParam, searchString = ViewBag.SearchValue })
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Address)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ZipCode)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.City)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PhoneNumber)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem=>item.Fax)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Email)
+        </td>
+        <td>
+            <p class="links-to-hide">
+                @Html.ActionLink("Więcej", "Details", new { id = item.ID }) |
+
+
+                @Html.ActionLink("Edytuj", "Edit", new { id = item.ID }) |
+                @Html.ActionLink("Usuń", "Delete", new { id = item.ID })
+            </p>
+            
+        </td>
+    </tr>
+}
+
+</table>
+<div class="text-center page-nav">
+    @Html.PagedListPager(Model, page => Url.Action("Index", new { page, sortOrder = ViewBag.CurrentSort, filter = ViewBag.CurrentFilter }))
+</div>
+}
+else
+{
+    ViewBag.Title = "INWENTARYZACJA";
+
+    @Html.Partial("_StocktakingOnPartial");
+}

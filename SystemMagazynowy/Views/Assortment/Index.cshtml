@@ -1,0 +1,87 @@
+﻿@model PagedList.IPagedList<SystemMagazynowy.Models.Assortment>
+@using PagedList.Mvc
+
+@if (ViewBag.IsStocktakingOn == -1)
+{
+
+    {
+        ViewBag.Title = "Asortyment";
+    }
+
+<h2 class="text-center main-header">Asortyment</h2>
+
+<div class="row search-box">
+@if (User.IsInRole("canManageAssortment"))
+{
+    <span class="col-md-2">
+        <a href="@Url.Action("Create")" class="btn btn-default"><span class="glyphicon glyphicon-plus-sign"></span> Dodaj nowy asortyment</a>
+    </span>
+}
+    @using (Html.BeginForm("Index", "Assortment", FormMethod.Get, htmlAttributes: new { @class = "form-inline col-md-8" }))
+    {
+        @Html.Hidden("sortOrder")
+        
+        <div class="form-group">
+            @Html.TextBox("SearchString", ViewBag.CurrentFilter as string, htmlAttributes: new { @class = "form-control", @placeholder = "Wpisz nazwe lub kod kreskowy...", @size = "50" })
+        </div>
+        <input type="submit" class="btn btn-default" value="Szukaj" />
+    }
+</div>
+<table class="table table-hover">
+    <tr>
+        <th>
+            @Html.ActionLink("Kategoria", "Index", new {sortOrder = ViewBag.CategorySortParam, searchString = ViewBag.SearchValue })
+        </th>
+        <th>
+            @Html.ActionLink("Kontrahent", "Index", new { sortOrder = ViewBag.ContractorSortParam, searchString = ViewBag.SearchValue })
+        </th>
+        <th>
+            @Html.ActionLink("Nazwa", "Index", new { sortOrder = ViewBag.NameSortParam, searchString = ViewBag.SearchValue })
+        </th>
+        <th>
+            @Html.ActionLink("Kod kreskowy", "Index", new { sortOrder = ViewBag.BarcodeSortParam, searchString = ViewBag.SearchValue })
+        </th>
+        
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Category.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Contractor.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.BarCode)
+        </td>
+        
+        <td>
+            <p class="links-to-hide">
+                @Html.ActionLink("Więcej", "Details", new { id = item.ID }) |
+
+                @Html.ActionLink("Edytuj", "Edit", new { id = item.ID }) |
+                @Html.ActionLink("Usuń", "Delete", new { id = item.ID })
+            </p>
+            
+            
+        </td>
+    </tr>
+}
+</table>
+
+<br />
+<div class="text-center page-nav">
+    @Html.PagedListPager(Model, page => Url.Action("Index", new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
+</div>
+}
+else
+{
+    ViewBag.Title = "INWENTARYZACJA";
+
+    @Html.Partial("_StocktakingOnPartial");
+}

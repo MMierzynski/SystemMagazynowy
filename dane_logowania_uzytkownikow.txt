@@ -1,0 +1,8 @@
+login: JanKowalski
+has³o: Pass_word4Admin
+
+login: TomaszJankowski
+has³o: Pass_w0rd
+
+login: AdamNowacki
+has³o: A2N_Pass

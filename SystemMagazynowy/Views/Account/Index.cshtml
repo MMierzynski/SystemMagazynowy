@@ -1,0 +1,55 @@
+﻿@model IEnumerable<SystemMagazynowy.Models.UserViewModel>
+
+@if(ViewBag.IsStocktakingOn == -1)
+{
+{
+    ViewBag.Title = "Pracownicy";
+}
+
+<h2 class="text-center">Pracownicy</h2>
+
+<span>
+    <a href="@Url.Action("Register")" class="btn btn-default">
+        <span class="glyphicon glyphicon-plus-sign"></span> Dodaj nowego użytkownika
+    </a>
+</span>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.UserName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PhoneNumber)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Email)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.UserName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PhoneNumber)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Email)
+        </td>
+        <td>
+            @Html.ActionLink("Edytuj", "Edit", new {  id=item.UserName }) 
+
+        </td>
+    </tr>
+}
+
+</table>
+}
+else
+{
+    ViewBag.Title = "INWENTARYZACJA";
+
+    @Html.Partial("_StocktakingOnPartial");
+}

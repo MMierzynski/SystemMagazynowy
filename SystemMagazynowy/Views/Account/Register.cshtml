@@ -1,0 +1,115 @@
+﻿@model SystemMagazynowy.Models.RegisterViewModel
+
+@if (ViewBag.IsStocktakingOn == -1)
+{
+    {
+        ViewBag.Title = "Dodaj pracownika";
+    }
+
+    @Html.Partial("_BackToListPartial")
+
+    <h2 class="text-center">Dodaj nowego pracownika</h2>
+    <hr />
+    <div class="row">
+        <div class="col-md-2"></div>
+        <div class="col-md-10">
+            @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "form-horizontal" }))
+            {
+                @Html.AntiForgeryToken()
+                
+                @Html.ValidationSummary(true,"", new { @class = "text-danger" })
+                <div class="form-group">
+                    @Html.LabelFor(m => m.UserName, new { @class = "col-md-2 control-label" })
+                    <div class="col-md-10">
+                        @Html.TextBoxFor(m => m.UserName, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m=>m.UserName, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Password, new { @class = "col-md-2 control-label" })
+                    <div class="col-md-10">
+                        @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.ConfirmPassword, new { @class = "col-md-2 control-label" })
+                    <div class="col-md-10">
+                        @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.ConfirmPassword, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Email, new { @class = "col-md-2 control-label" })
+                    <div class="col-md-10">
+                        @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.PhoneNumber, new { @class = "col-md-2 control-label" })
+                    <div class="col-md-10">
+                        @Html.TextBoxFor(m => m.PhoneNumber, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.PhoneNumber, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.Label("Uprawnienia użytkownika:", new { @class = "col-md-2 control-label" })
+                    <div class="col-md-10">
+
+                        <div class="checkbox col-md-offset-1">
+                            @Html.CheckBoxFor(m => m.canManageCategories)
+                            @Html.LabelFor(m => m.canManageCategories, new { @class = "control-label" })
+                        </div>
+                        <div class="checkbox col-md-offset-1">
+                            @Html.CheckBoxFor(m => m.canManageContractors)
+                            @Html.LabelFor(m => m.canManageContractors, new { @class = "control-label" })
+                        </div>
+                        <div class="checkbox col-md-offset-1">
+                            @Html.CheckBoxFor(m => m.canManageUsers)
+                            @Html.LabelFor(m => m.canManageUsers, new { @class = "control-label" })
+                        </div>
+                        <div class="checkbox col-md-offset-1">
+                            @Html.CheckBoxFor(m => m.canManageWarehouses)
+                            @Html.LabelFor(m => m.canManageWarehouses, new { @class = "control-label" })
+                        </div>
+                        <div class="checkbox col-md-offset-1">
+                            @Html.CheckBoxFor(m => m.canPerformStocktaking)
+                            @Html.LabelFor(m => m.canPerformStocktaking, new { @class = "control-label" })
+                        </div>
+                        <div class="checkbox col-md-offset-1">
+                            @Html.CheckBoxFor(m => m.canManageAssortment)
+                            @Html.LabelFor(m => m.canManageAssortment, new { @class = "control-label" })
+                        </div>
+                        <div class="checkbox col-md-offset-1">
+                            @Html.CheckBoxFor(m => m.canOperateWithAssortment)
+                            @Html.LabelFor(m => m.canOperateWithAssortment, new { @class = "control-label" })
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" class="btn btn-info" value="Dodaj" />
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+}
+else
+{
+    ViewBag.Title = "INWENTARYZACJA";
+
+    @Html.Partial("_StocktakingOnPartial");
+}
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
